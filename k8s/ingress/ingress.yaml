@@ -1,0 +1,79 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: eshop-ingress
+  namespace: eshop
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/proxy-body-size: "50m"
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: eshop.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: webapp
+            port:
+              number: 8080
+      - path: /identity
+        pathType: Prefix
+        backend:
+          service:
+            name: identity-api
+            port:
+              number: 8080
+      - path: /basket-api
+        pathType: Prefix
+        backend:
+          service:
+            name: basket-api
+            port:
+              number: 8080
+      - path: /catalog-api
+        pathType: Prefix
+        backend:
+          service:
+            name: catalog-api
+            port:
+              number: 8080
+      - path: /ordering-api
+        pathType: Prefix
+        backend:
+          service:
+            name: ordering-api
+            port:
+              number: 8080
+      - path: /webhooks-api
+        pathType: Prefix
+        backend:
+          service:
+            name: webhooks-api
+            port:
+              number: 8080
+      - path: /webhooksclient
+        pathType: Prefix
+        backend:
+          service:
+            name: webhooksclient
+            port:
+              number: 8080
+---
+# For production, use a proper LoadBalancer service
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp-external
+  namespace: eshop
+spec:
+  type: LoadBalancer
+  selector:
+    app: webapp
+  ports:
+  - port: 80
+    targetPort: 8080
+    name: http

@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: eshop-config
+  namespace: eshop
+data:
+  # Application Settings
+  ASPNETCORE_ENVIRONMENT: "Production"
+  ASPNETCORE_URLS: "http://+:8080"
+  
+  # Logging
+  Logging__Console__FormatterName: "simple"
+  
+  # Service URLs (internal cluster communication)
+  IdentityUrl: "http://identity-api:8080"
+  BasketApiUrl: "http://basket-api:8080"
+  CatalogApiUrl: "http://catalog-api:8080"
+  OrderingApiUrl: "http://ordering-api:8080"
+  WebhooksApiUrl: "http://webhooks-api:8080"
+  
+  # Enable forwarded headers for reverse proxy
+  ASPNETCORE_FORWARDEDHEADERS_ENABLED: "true"

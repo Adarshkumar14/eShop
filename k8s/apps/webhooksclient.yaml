@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webhooksclient
+  namespace: eshop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webhooksclient
+  template:
+    metadata:
+      labels:
+        app: webhooksclient
+    spec:
+      containers:
+      - name: webhooksclient
+        image: aady12/webhooksclient:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+          name: http
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          valueFrom:
+            configMapKeyRef:
+              name: eshop-config
+              key: ASPNETCORE_ENVIRONMENT
+        - name: ASPNETCORE_URLS
+          valueFrom:
+            configMapKeyRef:
+              name: eshop-config
+              key: ASPNETCORE_URLS
+        - name: WebhooksApiUrl
+          valueFrom:
+            configMapKeyRef:
+              name: eshop-config
+              key: WebhooksApiUrl
+        - name: IdentityUrl
+          valueFrom:
+            configMapKeyRef:
+              name: eshop-config
+              key: IdentityUrl
+        - name: CallBackUrl
+          value: "http://webhooksclient:8080"
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "250m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webhooksclient
+  namespace: eshop
+spec:
+  selector:
+    app: webhooksclient
+  ports:
+  - port: 8080
+    targetPort: 8080
+    name: http
+  type: ClusterIP

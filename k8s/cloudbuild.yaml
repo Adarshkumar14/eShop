@@ -1,0 +1,127 @@
+# Google Cloud Build configuration for eShop
+# This builds images on Google Cloud infrastructure (amd64) and pushes to your registry
+
+# Usage:
+#   gcloud builds submit --config=k8s/cloudbuild.yaml --substitutions=_REGISTRY=aady12
+
+substitutions:
+  _REGISTRY: aady12
+  _TAG: latest
+
+timeout: 3600s  # 1 hour timeout
+
+options:
+  machineType: 'N1_HIGHCPU_8'  # Use faster machine
+  logging: CLOUD_LOGGING_ONLY
+
+steps:
+  # Build Identity API
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-f'
+      - 'k8s/dockerfiles/Dockerfile.identity-api'
+      - '-t'
+      - '${_REGISTRY}/identity-api:${_TAG}'
+      - '.'
+    id: 'build-identity-api'
+  
+  # Build Basket API
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-f'
+      - 'k8s/dockerfiles/Dockerfile.basket-api'
+      - '-t'
+      - '${_REGISTRY}/basket-api:${_TAG}'
+      - '.'
+    id: 'build-basket-api'
+  
+  # Build Catalog API
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-f'
+      - 'k8s/dockerfiles/Dockerfile.catalog-api'
+      - '-t'
+      - '${_REGISTRY}/catalog-api:${_TAG}'
+      - '.'
+    id: 'build-catalog-api'
+  
+  # Build Ordering API
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-f'
+      - 'k8s/dockerfiles/Dockerfile.ordering-api'
+      - '-t'
+      - '${_REGISTRY}/ordering-api:${_TAG}'
+      - '.'
+    id: 'build-ordering-api'
+  
+  # Build Webhooks API
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-f'
+      - 'k8s/dockerfiles/Dockerfile.webhooks-api'
+      - '-t'
+      - '${_REGISTRY}/webhooks-api:${_TAG}'
+      - '.'
+    id: 'build-webhooks-api'
+  
+  # Build Order Processor
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-f'
+      - 'k8s/dockerfiles/Dockerfile.order-processor'
+      - '-t'
+      - '${_REGISTRY}/order-processor:${_TAG}'
+      - '.'
+    id: 'build-order-processor'
+  
+  # Build Payment Processor
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-f'
+      - 'k8s/dockerfiles/Dockerfile.payment-processor'
+      - '-t'
+      - '${_REGISTRY}/payment-processor:${_TAG}'
+      - '.'
+    id: 'build-payment-processor'
+  
+  # Build WebApp
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-f'
+      - 'k8s/dockerfiles/Dockerfile.webapp'
+      - '-t'
+      - '${_REGISTRY}/webapp:${_TAG}'
+      - '.'
+    id: 'build-webapp'
+  
+  # Build Webhooks Client
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-f'
+      - 'k8s/dockerfiles/Dockerfile.webhooksclient'
+      - '-t'
+      - '${_REGISTRY}/webhooksclient:${_TAG}'
+      - '.'
+    id: 'build-webhooksclient'
+
+# Push all images to Docker Hub
+images:
+  - '${_REGISTRY}/identity-api:${_TAG}'
+  - '${_REGISTRY}/basket-api:${_TAG}'
+  - '${_REGISTRY}/catalog-api:${_TAG}'
+  - '${_REGISTRY}/ordering-api:${_TAG}'
+  - '${_REGISTRY}/webhooks-api:${_TAG}'
+  - '${_REGISTRY}/order-processor:${_TAG}'
+  - '${_REGISTRY}/payment-processor:${_TAG}'
+  - '${_REGISTRY}/webapp:${_TAG}'
+  - '${_REGISTRY}/webhooksclient:${_TAG}'

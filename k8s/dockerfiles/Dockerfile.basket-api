@@ -1,0 +1,23 @@
+# Build stage uses linux/amd64 to avoid gRPC protoc ARM64 bugs
+FROM --platform=linux/amd64 mcr.microsoft.com/dotnet/sdk:10.0-preview AS build
+WORKDIR /src
+
+COPY ["Directory.Build.props", "."]
+COPY ["Directory.Build.targets", "."]
+COPY ["Directory.Packages.props", "."]
+COPY ["nuget.config", "."]
+
+COPY ["src/", "src/"]
+
+RUN dotnet restore "src/Basket.API/Basket.API.csproj"
+RUN dotnet build "src/Basket.API/Basket.API.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "src/Basket.API/Basket.API.csproj" -c Release -o /app/publish /p:UseAppHost=false
+
+# Runtime stage uses target platform (amd64 for GKE)
+FROM --platform=$TARGETPLATFORM mcr.microsoft.com/dotnet/aspnet:10.0-preview AS final
+WORKDIR /app
+EXPOSE 8080
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "Basket.API.dll"]

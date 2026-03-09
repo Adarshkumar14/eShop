@@ -1,0 +1,35 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: eshop
+
+resources:
+  # Base configuration
+  - base/namespace.yaml
+  - base/secrets.yaml
+  - base/configmap.yaml
+  
+  # Infrastructure
+  - infrastructure/postgres.yaml
+  - infrastructure/redis.yaml
+  - infrastructure/rabbitmq.yaml
+  
+  # Services
+  - services/identity-api.yaml
+  - services/basket-api.yaml
+  - services/catalog-api.yaml
+  - services/ordering-api.yaml
+  - services/webhooks-api.yaml
+  - services/order-processor.yaml
+  - services/payment-processor.yaml
+  
+  # Apps
+  - apps/webapp.yaml
+  - apps/webhooksclient.yaml
+  
+  # Ingress
+  - ingress/ingress.yaml
+
+commonLabels:
+  app.kubernetes.io/part-of: eshop
+  app.kubernetes.io/managed-by: kustomize
