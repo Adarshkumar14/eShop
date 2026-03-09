@@ -53,7 +53,8 @@ COPY ["nuget.config", "."]
 COPY ["src/", "src/"]
 
 # Remove Microsoft.Extensions.ApiDescription.Server package to avoid OpenAPI generation issues
-RUN find src -name '*.csproj' -exec sed -i '/<PackageReference.*Microsoft\.Extensions\.ApiDescription\.Server/d' {} \;
+RUN find src -name '*.csproj' -exec sed -i '/<PackageReference.*Microsoft\.Extensions\.ApiDescription\.Server.*\/>/d' {} \; && \
+    find src -name '*.csproj' -exec sed -i '/<PackageReference.*Microsoft\.Extensions\.ApiDescription\.Server/,/<\/PackageReference>/d' {} \;
 
 RUN dotnet restore "src/$project/$project.csproj"
 RUN dotnet build "src/$project/$project.csproj" -c Release -o /app/build
