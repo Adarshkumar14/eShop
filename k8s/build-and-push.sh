@@ -52,14 +52,14 @@ COPY ["nuget.config", "."]
 
 COPY ["src/", "src/"]
 
-# Create custom build props to disable OpenAPI generation during Docker builds
-RUN echo '<Project><PropertyGroup><GenerateDocumentationFile>false</GenerateDocumentationFile></PropertyGroup><Target Name="GenerateOpenApiDocuments" /></Project>' > DisableOpenApi.props
+# Remove Microsoft.Extensions.ApiDescription.Server package to avoid OpenAPI generation issues
+RUN find src -name '*.csproj' -exec sed -i '/<PackageReference.*Microsoft\.Extensions\.ApiDescription\.Server/d' {} \;
 
 RUN dotnet restore "src/$project/$project.csproj"
-RUN dotnet build "src/$project/$project.csproj" -c Release -o /app/build /p:CustomBeforeMicrosoftCommonTargets=/src/DisableOpenApi.props
+RUN dotnet build "src/$project/$project.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "src/$project/$project.csproj" -c Release -o /app/publish /p:UseAppHost=false /p:CustomBeforeMicrosoftCommonTargets=/src/DisableOpenApi.props
+RUN dotnet publish "src/$project/$project.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 # Runtime stage uses target platform (amd64 for GKE)
 FROM --platform=\$TARGETPLATFORM mcr.microsoft.com/dotnet/aspnet:10.0-preview AS final
