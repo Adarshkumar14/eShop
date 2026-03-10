@@ -1,4 +1,4 @@
-﻿global using Asp.Versioning;
+global using Asp.Versioning;
 global using Asp.Versioning.Conventions;
 global using eShop.Catalog.API;
 global using eShop.Catalog.API.Infrastructure;
@@ -8,8 +8,9 @@ global using eShop.Catalog.API.IntegrationEvents;
 global using eShop.Catalog.API.IntegrationEvents.EventHandling;
 global using eShop.Catalog.API.IntegrationEvents.Events;
 global using eShop.Catalog.API.Model;
-global using eShop.EventBus.Abstractions;
-global using eShop.EventBus.Events;
+// TEMPORARILY DISABLED FOR .NET 9 COMPATIBILITY
+// global using eShop.EventBus.Abstractions;
+// global using eShop.EventBus.Events;
 global using eShop.IntegrationEventLogEF;
 global using eShop.IntegrationEventLogEF.Services;
 global using eShop.IntegrationEventLogEF.Utilities;

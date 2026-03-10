@@ -1,5 +1,6 @@
-﻿global using eShop.EventBus.Abstractions;
-global using eShop.EventBus.Events;
+// TEMPORARILY DISABLED FOR .NET 9 COMPATIBILITY
+// global using eShop.EventBus.Abstractions;
+// global using eShop.EventBus.Events;
 global using eShop.PaymentProcessor;
 global using eShop.PaymentProcessor.IntegrationEvents.EventHandling;
 global using eShop.PaymentProcessor.IntegrationEvents.Events;

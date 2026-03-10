@@ -1,12 +1,13 @@
-﻿global using Asp.Versioning.Conventions;
+global using Asp.Versioning.Conventions;
 global using System.Runtime.Serialization;
 global using FluentValidation;
 global using MediatR;
 global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.EntityFrameworkCore;
-global using eShop.EventBus.Abstractions;
-global using eShop.EventBus.Events;
-global using eShop.EventBus.Extensions;
+// TEMPORARILY DISABLED FOR .NET 9 COMPATIBILITY
+// global using eShop.EventBus.Abstractions;
+// global using eShop.EventBus.Events;
+// global using eShop.EventBus.Extensions;
 global using eShop.IntegrationEventLogEF.Services;
 global using eShop.Ordering.API.Application.Behaviors;
 global using eShop.Ordering.API.Application.Commands;
