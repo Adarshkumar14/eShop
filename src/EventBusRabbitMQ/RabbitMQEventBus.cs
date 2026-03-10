@@ -1,4 +1,4 @@
-﻿namespace eShop.EventBusRabbitMQ;
+namespace eShop.EventBusRabbitMQ;
 
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -9,6 +9,7 @@ using Microsoft.Extensions.Options;
 using OpenTelemetry;
 using OpenTelemetry.Context.Propagation;
 using Polly.Retry;
+using RabbitMQ.Client;
 
 public sealed class RabbitMQEventBus(
     ILogger<RabbitMQEventBus> logger,
