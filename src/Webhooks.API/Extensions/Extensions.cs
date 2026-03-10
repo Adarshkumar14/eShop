@@ -1,11 +1,12 @@
-﻿internal static class Extensions
+internal static class Extensions
 {
     public static void AddApplicationServices(this IHostApplicationBuilder builder)
     {
         builder.AddDefaultAuthentication();
 
-        builder.AddRabbitMqEventBus("eventbus")
-               .AddEventBusSubscriptions();
+        // TEMPORARILY DISABLED FOR .NET 9 COMPATIBILITY - RabbitMQ.Client API breaking changes
+        // builder.AddRabbitMqEventBus("eventbus")
+        //        .AddEventBusSubscriptions();
 
         builder.AddNpgsqlDbContext<WebhooksContext>("webhooksdb");
 

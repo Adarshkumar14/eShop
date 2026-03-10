@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 
 internal static class Extensions
 {
@@ -25,8 +25,9 @@ internal static class Extensions
 
         services.AddTransient<IOrderingIntegrationEventService, OrderingIntegrationEventService>();
 
-        builder.AddRabbitMqEventBus("eventbus")
-               .AddEventBusSubscriptions();
+        // TEMPORARILY DISABLED FOR .NET 9 COMPATIBILITY - RabbitMQ.Client API breaking changes
+        // builder.AddRabbitMqEventBus("eventbus")
+        //        .AddEventBusSubscriptions();
 
         services.AddHttpContextAccessor();
         services.AddTransient<IIdentityService, IdentityService>();

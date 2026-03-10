@@ -15,8 +15,9 @@ public static class Extensions
         // TEMPORARILY DISABLED FOR TESTING - Authentication disabled to allow catalog browsing without login
         // builder.AddAuthenticationServices();
 
-        builder.AddRabbitMqEventBus("EventBus")
-               .AddEventBusSubscriptions();
+        // TEMPORARILY DISABLED FOR .NET 9 COMPATIBILITY - RabbitMQ.Client API breaking changes between 6.x and 7.x
+        // builder.AddRabbitMqEventBus("EventBus")
+        //        .AddEventBusSubscriptions();
 
         builder.Services.AddHttpForwarderWithServiceDiscovery();
 
