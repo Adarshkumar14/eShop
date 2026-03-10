@@ -51,4 +51,8 @@
     <InternalsVisibleTo Include="Catalog.FunctionalTests" />
   </ItemGroup>
 
+  <!-- TEMPORARILY DISABLED FOR .NET 9 COMPATIBILITY - Exclude IntegrationEvents -->
+  <ItemGroup>
+    <Compile Remove="IntegrationEvents/**/*.cs" />
+  </ItemGroup>
 </Project>
