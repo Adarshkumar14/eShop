@@ -1,4 +1,4 @@
-﻿using System.Net.Http.Json;
+using System.Net.Http.Json;
 using System.Web;
 using eShop.WebAppComponents.Catalog;
 
@@ -10,7 +10,7 @@ public class CatalogService(HttpClient httpClient) : ICatalogService
 
     public Task<CatalogItem?> GetCatalogItem(int id)
     {
-        var uri = $"{remoteServiceBaseUrl}items/{id}";
+        var uri = $"{remoteServiceBaseUrl}items/{id}?api-version=2.0";
         return httpClient.GetFromJsonAsync<CatalogItem>(uri);
     }
 
@@ -23,28 +23,28 @@ public class CatalogService(HttpClient httpClient) : ICatalogService
 
     public async Task<List<CatalogItem>> GetCatalogItems(IEnumerable<int> ids)
     {
-        var uri = $"{remoteServiceBaseUrl}items/by?ids={string.Join("&ids=", ids)}";
+        var uri = $"{remoteServiceBaseUrl}items/by?ids={string.Join("&ids=", ids)}&api-version=2.0";
         var result = await httpClient.GetFromJsonAsync<List<CatalogItem>>(uri);
         return result!;
     }
 
     public Task<CatalogResult> GetCatalogItemsWithSemanticRelevance(int page, int take, string text)
     {
-        var url = $"{remoteServiceBaseUrl}items/withsemanticrelevance?text={HttpUtility.UrlEncode(text)}&pageIndex={page}&pageSize={take}";
+        var url = $"{remoteServiceBaseUrl}items/withsemanticrelevance?text={HttpUtility.UrlEncode(text)}&pageIndex={page}&pageSize={take}&api-version=2.0";
         var result = httpClient.GetFromJsonAsync<CatalogResult>(url);
         return result!;
     }
 
     public async Task<IEnumerable<CatalogBrand>> GetBrands()
     {
-        var uri = $"{remoteServiceBaseUrl}catalogBrands";
+        var uri = $"{remoteServiceBaseUrl}catalogBrands?api-version=2.0";
         var result = await httpClient.GetFromJsonAsync<CatalogBrand[]>(uri);
         return result!;
     }
 
     public async Task<IEnumerable<CatalogItemType>> GetTypes()
     {
-        var uri = $"{remoteServiceBaseUrl}catalogTypes";
+        var uri = $"{remoteServiceBaseUrl}catalogTypes?api-version=2.0";
         var result = await httpClient.GetFromJsonAsync<CatalogItemType[]>(uri);
         return result!;
     }
@@ -62,6 +62,6 @@ public class CatalogService(HttpClient httpClient) : ICatalogService
             filterQs += $"brand={brand.Value}&";
         }
 
-        return $"{baseUri}items?{filterQs}pageIndex={pageIndex}&pageSize={pageSize}";
+        return $"{baseUri}items?{filterQs}pageIndex={pageIndex}&pageSize={pageSize}&api-version=2.0";
     }
 }
