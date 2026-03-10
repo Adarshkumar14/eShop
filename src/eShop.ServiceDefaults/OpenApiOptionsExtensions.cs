@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using Asp.Versioning.ApiExplorer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Primitives;
 using Microsoft.OpenApi;
+using Microsoft.OpenApi.Models;
 using System.Text.Json.Nodes;
 
 namespace eShop.ServiceDefaults;
