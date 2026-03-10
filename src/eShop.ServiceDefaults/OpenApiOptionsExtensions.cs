@@ -12,6 +12,10 @@ using System.Text.Json.Nodes;
 
 namespace eShop.ServiceDefaults;
 
+// TEMPORARILY DISABLED FOR .NET 9 COMPATIBILITY
+// OpenAPI functionality disabled due to breaking changes between Microsoft.OpenApi 1.6.x (required by .NET 9)
+// and Microsoft.OpenApi 2.x (used by .NET 10). The core functionality (catalog, basket, ordering) works without OpenAPI.
+/*
 internal static class OpenApiOptionsExtensions
 {
     public static OpenApiOptions ApplyApiVersionInfo(this OpenApiOptions options, string title, string description)
@@ -206,3 +210,4 @@ internal static class OpenApiOptionsExtensions
         }
     }
 }
+*/

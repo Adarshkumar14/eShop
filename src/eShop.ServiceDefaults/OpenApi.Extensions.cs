@@ -1,4 +1,4 @@
-﻿using Asp.Versioning;
+using Asp.Versioning;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -11,28 +11,13 @@ namespace eShop.ServiceDefaults;
 
 public static partial class Extensions
 {
+    // TEMPORARILY DISABLED FOR .NET 9 COMPATIBILITY
+    // OpenAPI functionality disabled due to breaking changes between Microsoft.OpenApi 1.6.x (required by .NET 9)
+    // and Microsoft.OpenApi 2.x (used by .NET 10). The core functionality (catalog, basket, ordering) works without OpenAPI.
+    
     public static IApplicationBuilder UseDefaultOpenApi(this WebApplication app)
     {
-        var configuration = app.Configuration;
-        var openApiSection = configuration.GetSection("OpenApi");
-
-        if (!openApiSection.Exists())
-        {
-            return app;
-        }
-
-        app.MapOpenApi();
-
-        if (app.Environment.IsDevelopment())
-        {
-            app.MapScalarApiReference(options =>
-            {
-                // Disable default fonts to avoid download unnecessary fonts
-                options.DefaultFonts = false;
-            });
-            app.MapGet("/", () => Results.Redirect("/scalar/v1")).ExcludeFromDescription();
-        }
-
+        // OpenAPI disabled for .NET 9 compatibility
         return app;
     }
 
@@ -40,38 +25,7 @@ public static partial class Extensions
         this IHostApplicationBuilder builder,
         IApiVersioningBuilder? apiVersioning = default)
     {
-        var openApi = builder.Configuration.GetSection("OpenApi");
-        var identitySection = builder.Configuration.GetSection("Identity");
-
-        var scopes = identitySection.Exists()
-            ? identitySection.GetRequiredSection("Scopes").GetChildren().ToDictionary(p => p.Key, p => p.Value)
-            : new Dictionary<string, string?>();
-
-
-        if (!openApi.Exists())
-        {
-            return builder;
-        }
-
-        if (apiVersioning is not null)
-        {
-            // the default format will just be ApiVersion.ToString(); for example, 1.0.
-            // this will format the version as "'v'major[.minor][-status]"
-            var versioned = apiVersioning.AddApiExplorer(options => options.GroupNameFormat = "'v'VVV");
-            string[] versions = ["v1", "v2"];
-            foreach (var description in versions)
-            {
-                builder.Services.AddOpenApi(description, options =>
-                {
-                    options.ApplyApiVersionInfo(openApi.GetRequiredValue("Document:Title"), openApi.GetRequiredValue("Document:Description"));
-                    options.ApplyAuthorizationChecks([.. scopes.Keys]);
-                    options.ApplySecuritySchemeDefinitions();
-                    options.ApplyOperationDeprecatedStatus();
-                    options.ApplyApiVersionDescription();
-                });
-            }
-        }
-
+        // OpenAPI disabled for .NET 9 compatibility
         return builder;
     }
 }
