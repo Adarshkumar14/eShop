@@ -1,4 +1,4 @@
-﻿using eShop.Basket.API.Grpc;
+using eShop.Basket.API.Grpc;
 using eShop.WebApp.Services.OrderStatus.IntegrationEvents;
 using eShop.WebAppComponents.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -12,7 +12,8 @@ public static class Extensions
 {
     public static void AddApplicationServices(this IHostApplicationBuilder builder)
     {
-        builder.AddAuthenticationServices();
+        // TEMPORARILY DISABLED FOR TESTING - Authentication disabled to allow catalog browsing without login
+        // builder.AddAuthenticationServices();
 
         builder.AddRabbitMqEventBus("EventBus")
                .AddEventBusSubscriptions();
