@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Worker">
+<Project Sdk="Microsoft.NET.Sdk.Worker">
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\eShop.ServiceDefaults\eShop.ServiceDefaults.csproj" />
-    <ProjectReference Include="..\EventBusRabbitMQ\EventBusRabbitMQ.csproj" />
+    <!-- TEMPORARILY DISABLED FOR .NET 9 COMPATIBILITY -->
+    <!-- <ProjectReference Include="..\EventBusRabbitMQ\EventBusRabbitMQ.csproj" /> -->
   </ItemGroup>
 </Project>

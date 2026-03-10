@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
@@ -12,7 +12,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\eShop.ServiceDefaults\eShop.ServiceDefaults.csproj" />
-    <ProjectReference Include="..\EventBusRabbitMQ\EventBusRabbitMQ.csproj" />
+    <!-- TEMPORARILY DISABLED FOR .NET 9 COMPATIBILITY -->
+    <!-- <ProjectReference Include="..\EventBusRabbitMQ\EventBusRabbitMQ.csproj" /> -->
     <ProjectReference Include="..\WebAppComponents\WebAppComponents.csproj" />
   </ItemGroup>
 
